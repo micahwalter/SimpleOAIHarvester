@@ -1,6 +1,5 @@
 import urllib, urllib2, os, sys, re, threading, Queue
 from xml.dom import minidom
-from retry import *
 
 IMAGE_PATH = 'images'
 XML_PATH = 'xml'
