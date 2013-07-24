@@ -34,7 +34,7 @@ class ThreadUrl(threading.Thread):
       imageUrl, imagePath = self.queue.get()
 
       try:
-        retry(urllib.urlretrieve, 3)(imageUrl, imagePath)
+        urllib.urlretrieve(imageUrl, imagePath)
       finally:
         self.queue.task_done()
 
@@ -56,7 +56,7 @@ def getText(node):
 
 def harvest(url):
   print "downloading: " + url
-  data = retry(urllib2.urlopen, 3)(url)
+  data = urllib2.urlopen(url)
 
   # cache the data because this file-like object is not seekable
   cached  = ""
@@ -109,7 +109,7 @@ def retrieveImages(record):
   identifier = getText( record.getElementsByTagName('dc:identifier')[0] )
   formats = [ getText(tag) for tag in record.getElementsByTagName('dc:format') ]
   urls = filter(lambda str: urlPattern.match(str), formats )
-  imageUrl = urls[0] + '&100x100'
+  imageUrl = urls[0] # + '&100x100'
   imagePath = os.path.join(IMAGE_PATH, identifier +'.jpg')
 
   #populate queue with data
